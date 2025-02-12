@@ -1,0 +1,34 @@
+kind: DatasetSnapshot
+version: 1
+content:
+  name: new-mexico-ways
+  kind: Root
+  metadata:
+    - kind: SetPollingSource
+      fetch:
+        kind: FilesGlob
+        path: new-mexico/ways.csv
+      read:
+        kind: Csv
+        separator: ","
+        header: true
+        nullValue: ""
+        schema:
+        - epochMillis BIGINT
+        - id BIGINT
+        - nodeId BIGINT
+        - latitude FLOAT
+        - longitude FLOAT
+      preprocess:
+        kind: Sql
+        engine: datafusion
+        query: |
+          SELECT
+            from_unixtime("epochMillis") as event_time, id, nodeId, latitude, longitude
+          FROM input
+      merge:
+        kind: Ledger
+        primaryKey:
+          - id
+    - kind: SetVocab
+      eventTimeColumn: event_time

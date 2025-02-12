@@ -1,0 +1,35 @@
+kind: DatasetSnapshot
+version: 1
+content:
+  name: new-mexico-tags
+  kind: Root
+  metadata:
+    - kind: SetPollingSource
+      fetch:
+        kind: FilesGlob
+        path: new-mexico/tags.csv
+      read:
+        kind: Csv
+        separator: ","
+        header: true
+        nullValue: ""
+        quote: "\""
+        escape: "\\"
+        schema:
+        - epochMillis BIGINT
+        - id BIGINT
+        - key TEXT
+        - value TEXT
+      preprocess:
+        kind: Sql
+        engine: datafusion
+        query: |
+          SELECT
+            from_unixtime("epochMillis") as event_time, id, key, value
+          FROM input
+      merge:
+        kind: Ledger
+        primaryKey:
+          - id
+    - kind: SetVocab
+      eventTimeColumn: event_time
