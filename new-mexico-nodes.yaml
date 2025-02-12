@@ -1,31 +1,29 @@
 kind: DatasetSnapshot
 version: 1
 content:
-  name: new-mexico-tags
+  name: new-mexico-nodes
   kind: Root
   metadata:
     - kind: SetPollingSource
       fetch:
         kind: FilesGlob
-        path: new-mexico/tags.csv
+        path: new-mexico/nodes.csv
       read:
         kind: Csv
         separator: ","
         header: true
         nullValue: ""
-        quote: "\""
-        escape: "\\"
         schema:
         - epochMillis BIGINT
         - id BIGINT
-        - '"key" TEXT'
-        - value TEXT
+        - latitude FLOAT
+        - longitude FLOAT
       preprocess:
         kind: Sql
         engine: datafusion
         query: |
           SELECT
-            from_unixtime("epochMillis") as event_time, id, key, value
+            from_unixtime("epochMillis") as event_time, id, latitude, longitude
           FROM input
       merge:
         kind: Ledger
