@@ -31,3 +31,4 @@ content:
           - id
     - kind: SetVocab
       eventTimeColumn: event_time
+

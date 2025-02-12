@@ -1,3 +1,4 @@
 .idea/**
-new-mexico/**
+new-mexico/*.csv
+new-mexico/albuquerque/*.csv
 
