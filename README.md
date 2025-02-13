@@ -25,6 +25,10 @@ Download OSM data for [New Mexico](https://drive.google.com/drive/u/0/folders/1a
 
 This creates a Kamu workspace.
 
+```
+Initialized an empty workspace
+```
+
 ## 3. `kamu add *.yaml`
 
 This adds datasets to Kamu for OSM nodes, ways and tags in the state of New Mexico, 
