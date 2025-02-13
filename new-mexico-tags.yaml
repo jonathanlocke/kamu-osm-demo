@@ -13,8 +13,6 @@ content:
         separator: ","
         header: true
         nullValue: ""
-        quote: "\""
-        escape: "\\"
         schema:
         - epochMillis BIGINT
         - id BIGINT
